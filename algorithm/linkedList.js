@@ -53,7 +53,7 @@ LinkList.prototype = {
                 previous.next = current.next
             }
             this._length--;
-            return current.data;    
+            return current.data;
         } else {
             return null;
         }
@@ -65,3 +65,74 @@ list.add('red')
 list.add('orange')
 list.add('yellow')
 
+function showStudent(ssn) {
+    var student = db.get(ssn);
+    if(student !== null) {
+        document.querySelector(`#{elementId}`).innerHTML = `${student.ssn}, ${student.firstname}, ${student.lastname}`;
+    } else {
+        throw  new Error('student is not found')
+    }
+}
+
+var find = curry(function (db, id) {
+    var obj = bd.get(id);
+    if(obj === null) {
+        throw new Error('Object not found');
+    }
+    return obj;
+})
+
+var csv = (student) {
+    return `${student.ssn}, ${student.firstname}, ${student.lastname}`;
+}
+
+var append = curry(function (elementId, info) {
+    document.querySelector(elementId).innerHTML = info;
+})
+
+var showStudent = run(append('#student-info'), csv, find(db));
+
+class Person {
+    constructor(firstname, lastname, ssn) {
+        this._firstname = firstname;
+        this._lastname = lastname;
+        this._ssn = ssn;
+        this._address = null;
+        this._birthYear = null;
+    }
+
+    get ssn() {
+        return this._ssn;
+    }
+
+    get firstname() {
+        return this._firstname;
+    }
+
+    get address() {
+        return this._address;
+    }
+
+    get birthYear() {
+        return this._birthYear;
+    }
+
+    set address(addr) {
+        this._address = addr;
+    }
+
+    toString() {
+        return `Person(${this._firstname}, ${this._lastname})`
+    }
+}
+
+class Student extends Person {
+    constructor(firtname, lastname, ssn, school) {
+        super(firtname, lastname, ssn);
+        this._school = school
+    }
+
+    get school() {
+        return this._school;
+    }
+}
